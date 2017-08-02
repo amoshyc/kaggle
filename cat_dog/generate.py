@@ -25,7 +25,7 @@ def gen_npz(paths, target_path):
 
 def main():
     dataset = Path(argv[1]).expanduser().absolute()
-    imgs = list(dataset.glob('*.jpg'))[:100]
+    imgs = list(dataset.glob('*.jpg'))
 
     random.shuffle(imgs)
     pivot = len(imgs) * 4 // 5
