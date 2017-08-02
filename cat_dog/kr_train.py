@@ -53,6 +53,7 @@ def main():
 
     name = 'keras_cnn'
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    Path('log/').mkdir(exist_ok=True)
     log_path = 'log/{} ({}).csv'.format(name, now)
     weight_path = '/tmp/' + name + '_{epoch:02d}_{val_acc:.3f}.h5'
 

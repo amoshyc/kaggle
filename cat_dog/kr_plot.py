@@ -16,6 +16,7 @@ import pandas as pd
 def plot_svg(log, name, n_epochs=None):
     df = pd.read_csv(log)
     graph = Path('./graph/')
+    graph.mkdir(exist_ok=True)
     loss_path = graph / (name + '_loss.svg')
     acc_path = graph / (name + '_acc.svg')
     n_epochs = n_epochs or df.shape[0]
