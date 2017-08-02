@@ -43,8 +43,10 @@ def main():
     val = np.load('val.npz')
     x_val, y_val = val['xs'], val['ys']
 
-    print(np.sum(y_train == 0))
-    print(np.sum(y_val == 0))
+    print(np.sum(y_train[:, 0]))
+    print(np.sum(y_train[:, 1]))
+    print(np.sum(y_val[:, 0]))
+    print(np.sum(y_val[:, 1]))
 
     name = 'kaggle_vgg'
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
