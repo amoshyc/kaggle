@@ -56,3 +56,7 @@ def main():
         ],
     } # yapf: disable
     model.fit(**fit_arg)
+
+
+if __name__ == '__main__':
+    main()
