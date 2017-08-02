@@ -43,12 +43,12 @@ def main():
     val = np.load('val.npz')
     x_val, y_val = val['xs'], val['ys']
 
-    print(np.sum(y_train[:, 0]))
-    print(np.sum(y_train[:, 1]))
-    print(np.sum(y_val[:, 0]))
-    print(np.sum(y_val[:, 1]))
+    print('# Cats in Train:', np.sum(y_train[:, 0]))
+    print('# Dogs in Train:', np.sum(y_train[:, 1]))
+    print('# Cats in Val:', np.sum(y_val[:, 0]))
+    print('# Dogs in Val:', np.sum(y_val[:, 1]))
 
-    name = 'kaggle_vgg'
+    name = 'keras_cnn'
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_path = 'log/{} ({}).csv'.format(name, now)
     weight_path = '/tmp/' + name + '_{epoch:02d}_{val_acc:.3f}.h5'
@@ -62,7 +62,7 @@ def main():
         'validation_data': (x_val, y_val),
         'callbacks': [
             CSVLogger(log_path),
-            ModelCheckpoint(filepath=weight_path)
+            # ModelCheckpoint(filepath=weight_path)
         ],
     } # yapf: disable
     model.fit(**fit_arg)

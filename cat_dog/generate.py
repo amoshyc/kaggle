@@ -15,7 +15,7 @@ def gen_npz(paths, target_path):
     ys = np.zeros((len(paths), 2), dtype=np.uint8)
     for i, path in enumerate(tqdm(paths)):
         img = io.imread(path)
-        y = 0 if path.name[0] == 'c' else 1
+        y = 0 if 'cat' in path.name else 1
         xs[i] = transform.resize(img, (224, 224), mode='edge')
         ys[i][y] = 1
 
