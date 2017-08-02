@@ -1,4 +1,5 @@
 import random
+from sys import argv
 from pathlib import Path
 
 import numpy as np
@@ -23,7 +24,7 @@ def gen_npz(paths, target_path):
 
 
 def main():
-    dataset = Path('~/Downloads/train/').expanduser().absolute()
+    dataset = Path(argv[1]).expanduser().absolute()
     imgs = list(dataset.glob('*.jpg'))[:100]
 
     random.shuffle(imgs)
