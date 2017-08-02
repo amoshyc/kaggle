@@ -43,6 +43,9 @@ def main():
     val = np.load('val.npz')
     x_val, y_val = val['xs'], val['ys']
 
+    print(np.sum(y_train == 0))
+    print(np.sum(y_val == 0))
+
     name = 'kaggle_vgg'
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_path = 'log/{} ({}).csv'.format(name, now)
