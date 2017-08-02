@@ -46,7 +46,7 @@ def main():
     name = 'kaggle_vgg'
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_path = 'log/{} ({}).csv'.format(name, now)
-    weight_path = '/tmp/' + name + '_{epoch:02d}_{val_accuracy:.3f}.h5'
+    weight_path = '/tmp/' + name + '_{epoch:02d}_{val_acc:.3f}.h5'
 
     fit_arg = {
         'x': x_train,
