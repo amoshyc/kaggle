@@ -28,7 +28,7 @@ def main():
     model.add(Flatten())
     model.add(Dense(16, activation='relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(1, activation='sigmoid'))
+    model.add(Dense(2, activation='softmax'))
 
     model_arg = {
         'loss': 'categorical_crossentropy',
