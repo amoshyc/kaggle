@@ -28,7 +28,7 @@ def main():
     x = Dropout(0.5)(x)
     x = Dense(8, activation='relu')(x)
     x = Dropout(0.5)(x)
-    x = Dense(1, activation='sigmoid')(x)
+    x = Dense(2, activation='softmax')(x)
     model = Model(inputs=inp, outputs=x)
 
     model_arg = {
