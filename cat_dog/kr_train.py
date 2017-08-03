@@ -44,6 +44,11 @@ def main():
     val = np.load('val.npz')
     x_val, y_val = val['xs'], val['ys']
 
+    x_train = x_train[:10000]
+    y_train = y_train[:10000]
+    x_val = x_val[:2000]
+    y_val = y_val[:2000]
+
     print('# Cats in Train:', np.sum(y_train[:, 0]))
     print('# Dogs in Train:', np.sum(y_train[:, 1]))
     print('# Cats in Val:', np.sum(y_val[:, 0]))
