@@ -19,7 +19,7 @@ from keras.callbacks import ModelCheckpoint, CSVLogger
 
 def main():
     vgg = VGG16(weights='imagenet', include_top=False, pooling='max')
-    vgg.trainable = False
+    # vgg.trainable = False
 
     inp = Input(shape=(224, 224, 3))
     x = BatchNormalization()(inp)
