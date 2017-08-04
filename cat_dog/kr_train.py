@@ -10,7 +10,7 @@ config.gpu_options.allow_growth = True
 set_session(tf.Session(config=config))
 
 from keras.models import Sequential, Model
-from keras.preprocessing import image
+from keras.utils import to_categorical
 from keras.layers import *
 from keras.optimizers import *
 from keras.applications.vgg16 import VGG16
@@ -43,6 +43,9 @@ def main():
     x_train, y_train = train['xs'], train['ys']
     val = np.load('val.npz')
     x_val, y_val = val['xs'], val['ys']
+
+    y_train = to_categorical(y_train, 2)
+    y_val = to_categorical(y_val, 2)
 
     x_train = x_train[:10000]
     y_train = y_train[:10000]
