@@ -25,7 +25,7 @@ def gen_npz(paths, target_path):
     print(target_path)
 
     xs = np.zeros((len(paths), 224, 224, 3), dtype=np.float32)
-    ys = np.zeros((len(paths), 1), dtype=np.uint8)
+    ys = np.zeros((len(paths)), dtype=np.uint8)
     for i, path in enumerate(tqdm(paths)):
         img = io.imread(path)
         xs[i] = transform.resize(img, (224, 224), mode='edge')

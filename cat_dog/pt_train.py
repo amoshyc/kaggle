@@ -14,6 +14,9 @@ def get_loaders():
     val = np.load('val.npz')
     x_val, y_val = val['xs'], val['ys']
 
+    # y_train = y_train.squeeze()
+    # y_val = y_val.squeeze()
+
     print('# Cats in Train:', np.sum(y_train == 0))
     print('# Dogs in Train:', np.sum(y_train == 1))
     print('# Cats in Val:', np.sum(y_val == 0))
@@ -68,11 +71,11 @@ def main():
     optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 
     for i, (x, y) in enumerate(train):
-        x_var = Variable(x)
+        x_var = Variable(x, requires_grad=True)
         y_var = Variable(y)
 
         pred = model(x_var)
-        loss = criterion(pred, y)
+        loss = criterion(pred, y_var)
         
         optimizer.zero_grad()
         loss.backward()
