@@ -6,7 +6,6 @@ import torch.optim as optim
 from torch.autograd import Variable
 from torch.utils.data import TensorDataset, DataLoader
 
-use_cuda = False
 batch_size = 10
 
 def get_loaders():
