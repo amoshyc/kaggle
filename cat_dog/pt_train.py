@@ -8,8 +8,8 @@ import torch.optim as optim
 from torch.autograd import Variable
 from torch.utils.data import TensorDataset, DataLoader
 
-
-epochs = 2
+use_cuda = False
+epochs = 10
 batch_size = 10
 
 def get_loaders():
@@ -72,9 +72,12 @@ def main():
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 
+    if use_cuda:
+        model = model.cuda()
+
     for epoch in range(epochs):
         tqdm_arg = {
-            'desc': 'Epoch {:02d} / {:02d}'.format(epoch, epochs),
+            'desc': 'Epoch {}/{}'.format(epoch, epochs),
             'total': len(train),
             'ascii': True
         }
@@ -83,6 +86,10 @@ def main():
 
         model.train()
         for i, (x, y) in enumerate(train):
+            if use_cuda:
+                x = x.cuda()
+                y = y.cuda()
+
             x_var = Variable(x, requires_grad=True)
             y_var = Variable(y)
 
@@ -93,19 +100,23 @@ def main():
             loss.backward()
             optimizer.step()
 
-            pbar_postfix['loss'] = loss.data[0]
+            pbar_postfix['loss'] = '{:.03f}'.format(loss.data[0])
             pbar.set_postfix(**pbar_postfix)
             pbar.update(i)
 
         model.eval()
         for (x, y) in val:
+            if use_cuda:
+                x = x.cuda()
+                y = y.cuda()
+
             x_var = Variable(x)
             y_var = Variable(y)
 
             pred = model(x_var)
             loss = criterion(pred, y_var)
 
-            pbar_postfix['val_loss'] = loss.data[0]
+            pbar_postfix['val_loss'] = '{:.03f}'.format(loss.data[0])
             pbar.set_postfix(**pbar_postfix)
             pbar.refresh()
 
