@@ -14,7 +14,7 @@ import torchvision.models
 use_cuda = torch.cuda.is_available()
 if use_cuda:
     epochs = 100
-    batch_size = 50
+    batch_size = 40
 else:
     epochs = 10
     batch_size = 5
