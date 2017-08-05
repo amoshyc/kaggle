@@ -14,7 +14,7 @@ import torchvision.models
 use_cuda = torch.cuda.is_available()
 if use_cuda:
     epochs = 100
-    batch_size = 80
+    batch_size = 50
 else:
     epochs = 10
     batch_size = 5
@@ -30,8 +30,8 @@ def get_loaders():
     print('# Cats in Val:', np.sum(y_val == 0))
     print('# Dogs in Val:', np.sum(y_val == 1))
 
-    x_train = np.transpose(x_train, [0, 3, 1, 2])
-    x_val = np.transpose(x_val, [0, 3, 1, 2])
+    x_train = np.transpose(x_train, [0, 3, 1, 2]) / 255.0
+    x_val = np.transpose(x_val, [0, 3, 1, 2]) / 255.0
 
     x_train = torch.from_numpy(x_train).float()
     y_train = torch.from_numpy(y_train).long()
@@ -80,7 +80,7 @@ def main():
     optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 
     if use_cuda:
-        model = nn.DataParallel(model)
+        # model = nn.DataParallel(model)
         model = model.cuda()
 
     for epoch in range(epochs):
