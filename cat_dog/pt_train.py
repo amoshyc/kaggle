@@ -80,6 +80,7 @@ def main():
     optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 
     if use_cuda:
+        model = nn.DataParallel(model)
         model = model.cuda()
 
     for epoch in range(epochs):
