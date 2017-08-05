@@ -30,8 +30,8 @@ def get_loaders():
     print('# Cats in Val:', np.sum(y_val == 0))
     print('# Dogs in Val:', np.sum(y_val == 1))
 
-    x_train = np.transpose(x_train, [0, 3, 1, 2]) / 255.0
-    x_val = np.transpose(x_val, [0, 3, 1, 2]) / 255.0
+    x_train = np.transpose(x_train, [0, 3, 1, 2])
+    x_val = np.transpose(x_val, [0, 3, 1, 2])
 
     x_train = torch.from_numpy(x_train).float()
     y_train = torch.from_numpy(y_train).long()
