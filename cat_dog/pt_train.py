@@ -77,7 +77,7 @@ def main():
 
     model = torchvision.models.vgg16(pretrained=True) if use_cuda else Net()
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+    optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 
     if use_cuda:
         # model = nn.DataParallel(model)
