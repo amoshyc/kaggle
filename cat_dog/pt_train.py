@@ -73,7 +73,7 @@ class Net(nn.Module):
 def main():
     train, val = get_loaders()
 
-    model = Net() if use_cuda else torchvision.model.vgg16(pretrained=True)
+    model = torchvision.model.vgg16(pretrained=True) if use_cuda else Net()
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 
