@@ -2,15 +2,16 @@ import numpy as np
 from tqdm import tqdm
 
 import torch
+import torch.cuda
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.autograd import Variable
 from torch.utils.data import TensorDataset, DataLoader
 
-use_cuda = False
-epochs = 10
-batch_size = 10
+use_cuda = torch.cuda.is_available()
+epochs = 100
+batch_size = 80
 
 def get_loaders():
     train = np.load('train.npz')
