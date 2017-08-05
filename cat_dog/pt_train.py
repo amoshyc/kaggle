@@ -83,7 +83,9 @@ def main():
             'ascii': True
         }
         pbar_postfix = dict()
-        pbar = tqdm(**tqdm_arg)
+        # pbar = tqdm(**tqdm_arg)
+
+        print(len(train))
 
         model.train()
         for i, (x, y) in enumerate(train):
@@ -101,9 +103,11 @@ def main():
             loss.backward()
             optimizer.step()
 
-            pbar_postfix['loss'] = '{:.03f}'.format(loss.data[0])
-            pbar.set_postfix(**pbar_postfix)
-            pbar.update(i)
+            print(i)
+
+            # pbar_postfix['loss'] = '{:.03f}'.format(loss.data[0])
+            # pbar.set_postfix(**pbar_postfix)
+            # pbar.update(i)
 
         model.eval()
         for (x, y) in val:
@@ -117,11 +121,11 @@ def main():
             pred = model(x_var)
             loss = criterion(pred, y_var)
 
-            pbar_postfix['val_loss'] = '{:.03f}'.format(loss.data[0])
-            pbar.set_postfix(**pbar_postfix)
-            pbar.refresh()
+            # pbar_postfix['val_loss'] = '{:.03f}'.format(loss.data[0])
+            # pbar.set_postfix(**pbar_postfix)
+            # pbar.refresh()
 
-        pbar.close()
+        # pbar.close()
 
 if __name__ == '__main__':
     main()
