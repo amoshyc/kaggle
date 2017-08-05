@@ -9,6 +9,8 @@ import torch.optim as optim
 from torch.autograd import Variable
 from torch.utils.data import TensorDataset, DataLoader
 
+import torchvision.models
+
 use_cuda = torch.cuda.is_available()
 if use_cuda:
     epochs = 100
@@ -73,7 +75,7 @@ class Net(nn.Module):
 def main():
     train, val = get_loaders()
 
-    model = torchvision.model.vgg16(pretrained=True) if use_cuda else Net()
+    model = torchvision.models.vgg16(pretrained=True) if use_cuda else Net()
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 
