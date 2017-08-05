@@ -10,8 +10,12 @@ from torch.autograd import Variable
 from torch.utils.data import TensorDataset, DataLoader
 
 use_cuda = torch.cuda.is_available()
-epochs = 100
-batch_size = 80
+if use_cuda:
+    epochs = 100
+    batch_size = 80
+else:
+    epochs = 10
+    batch_size = 5
 
 def get_loaders():
     train = np.load('train.npz')
@@ -80,15 +84,15 @@ def main():
         tqdm_arg = {
             'desc': 'Epoch {}/{}'.format(epoch, epochs),
             'total': len(train),
-            'ascii': True
+            'ascii': True,
         }
         pbar_postfix = dict()
-        # pbar = tqdm(**tqdm_arg)
+        pbar = tqdm(**tqdm_arg)
 
-        print(len(train))
+        # print(len(train))
 
         model.train()
-        for i, (x, y) in enumerate(train):
+        for (x, y) in train:
             if use_cuda:
                 x = x.cuda()
                 y = y.cuda()
@@ -103,11 +107,9 @@ def main():
             loss.backward()
             optimizer.step()
 
-            print(i)
-
-            # pbar_postfix['loss'] = '{:.03f}'.format(loss.data[0])
-            # pbar.set_postfix(**pbar_postfix)
-            # pbar.update(i)
+            pbar_postfix['loss'] = '{:.03f}'.format(loss.data[0])
+            pbar.set_postfix(**pbar_postfix)
+            pbar.update(1)
 
         model.eval()
         for (x, y) in val:
@@ -121,11 +123,11 @@ def main():
             pred = model(x_var)
             loss = criterion(pred, y_var)
 
-            # pbar_postfix['val_loss'] = '{:.03f}'.format(loss.data[0])
-            # pbar.set_postfix(**pbar_postfix)
-            # pbar.refresh()
+            pbar_postfix['val_loss'] = '{:.03f}'.format(loss.data[0])
+            pbar.set_postfix(**pbar_postfix)
+            pbar.refresh()
 
-        # pbar.close()
+        pbar.close()
 
 if __name__ == '__main__':
     main()
