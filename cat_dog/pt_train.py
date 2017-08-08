@@ -16,8 +16,9 @@ if use_cuda:
     epochs = 100
     batch_size = 40
 else:
-    epochs = 10
+    epochs = 1
     batch_size = 5
+
 
 def get_loaders():
     train = np.load('train.npz')
@@ -40,7 +41,8 @@ def get_loaders():
 
     train_dataset = TensorDataset(x_train, y_train)
     val_dataset = TensorDataset(x_val, y_val)
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=False)
+    train_loader = DataLoader(
+        train_dataset, batch_size=batch_size, shuffle=False)
     val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
     return train_loader, val_loader
 
@@ -55,15 +57,9 @@ class Net(nn.Module):
             nn.Conv2d(5, 7, kernel_size=3, stride=2),
             nn.ReLU(),
             nn.Conv2d(7, 4, kernel_size=3, stride=1),
-            nn.BatchNorm2d(4),
-            nn.ReLU(),
-            nn.MaxPool2d(3)
-        )
+            nn.BatchNorm2d(4), nn.ReLU(), nn.MaxPool2d(3))
         self.fc = nn.Sequential(
-            nn.Linear(1156, 16),
-            nn.Linear(16, 2),
-            nn.Softmax()
-        )
+            nn.Linear(1156, 16), nn.Linear(16, 2), nn.Softmax())
 
     def forward(self, x):
         x = self.conv.forward(x)
@@ -104,14 +100,23 @@ def main():
             x_var = Variable(x, requires_grad=True)
             y_var = Variable(y)
 
-            out = model(x_var)
-            loss = criterion(out, y_var)
-            pred = out.max(1)[1]
+            out = model(x_var)  # gets Var
+            loss = criterion(out, y_var)  # gets FloatTensor
+            pred = out.data.max(1)[1]  # gets LongTensor
 
-            cnt_corr = (pred == y_var).sum().data[0]
+            # Note that
+            # out.max(1) gets a tuple: (Var(FloatTensor), Var(LongTensor))
+            # out.data.max(1) gets a tuple: (FloatTensor, LongTensor)
+            # while
+            # out.max() gets Var(FloatTensor)
+            # out.data.max() gets float(scalar)
+
+            cnt_corr = (pred == y).sum() # (a == b) gets ByteTensor, sum() gets scalar
+            print(type(cnt_corr))
+            break
             sum_corr += cnt_corr
             avg_corr = sum_corr / ((i + 1) * batch_size)
-            
+
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
@@ -139,8 +144,6 @@ def main():
 
         pbar.close()
 
+
 if __name__ == '__main__':
     main()
-
-    
-
