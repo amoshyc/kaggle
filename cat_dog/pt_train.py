@@ -92,8 +92,6 @@ def main():
         pbar_postfix = dict()
         pbar = tqdm(**tqdm_arg)
 
-        # print(len(train))
-
         model.train()
         for (x, y) in train:
             if use_cuda:
@@ -105,12 +103,14 @@ def main():
 
             pred = model(x_var)
             loss = criterion(pred, y_var)
+            acc = (pred == y).mean()
             
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
 
             pbar_postfix['loss'] = '{:.03f}'.format(loss.data[0])
+            pbar_postfix['acc'] = acc.data[0]
             pbar.set_postfix(**pbar_postfix)
             pbar.update(1)
 
