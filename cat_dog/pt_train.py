@@ -103,7 +103,7 @@ def main():
 
             pred = model(x_var)
             loss = criterion(pred, y_var)
-            acc = (pred == y).mean()
+            acc = (pred == y_var).mean()
             
             optimizer.zero_grad()
             loss.backward()
