@@ -92,8 +92,11 @@ def main():
         pbar_postfix = dict()
         pbar = tqdm(**tqdm_arg)
 
+        sum_corr = torch.FloatTensor([0])
+        avg_corr = torch.FloatTensor([0])
+
         model.train()
-        for (x, y) in train:
+        for i, (x, y) in enumerate(train):
             if use_cuda:
                 x = x.cuda()
                 y = y.cuda()
@@ -101,16 +104,24 @@ def main():
             x_var = Variable(x, requires_grad=True)
             y_var = Variable(y)
 
-            pred = model(x_var)
-            loss = criterion(pred, y_var)
-            acc = (pred == y_var).mean()
+            out = model(x_var)
+            loss = criterion(out, y_var)
+            pred = out.max(1)[1]
+
+            print(out)
+
+            cnt_corr = (pred == y_var).sum().data.float()
+            sum_corr += cnt_corr
+            avg_corr = sum_corr / ((i + 1) * batch_size)
+
+            break
             
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
 
             pbar_postfix['loss'] = '{:.03f}'.format(loss.data[0])
-            pbar_postfix['acc'] = acc.data[0]
+            pbar_postfix['acc'] = '{:.03f}'.format(avg_corr[0])
             pbar.set_postfix(**pbar_postfix)
             pbar.update(1)
 
